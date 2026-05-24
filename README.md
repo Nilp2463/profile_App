@@ -30,3 +30,5 @@ A modern Flutter portfolio application showcasing developer profile, projects, a
 ## Author
 
 Neel Patel
+
+Built using Flutter and Dart.
