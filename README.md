@@ -1,17 +1,32 @@
-# developer_portfolio
+# Developer Portfolio App
 
-A new Flutter project.
+A modern Flutter portfolio application showcasing developer profile, projects, and technical skills.
 
-## Getting Started
+## Features
 
-This project is a starting point for a Flutter application.
+- Profile Dashboard
+- Projects Section
+- Skills Section
+- Bottom Navigation Bar
+- Add Project Functionality
+- Clean UI Design
 
-A few resources to get you started if this is your first Flutter project:
+## Technologies Used
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+- Flutter
+- Dart
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Screenshots
+
+### Profile Screen
+![Profile](screenshots/profile_screen.png)
+
+### Projects Screen
+![Projects](screenshots/projects_screen.png)
+
+### Skills Screen
+![Skills](screenshots/skills_screen.png)
+
+## Author
+
+Neel Patel
