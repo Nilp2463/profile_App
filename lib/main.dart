@@ -1,4 +1,265 @@
+// import 'package:flutter/material.dart';
+// import 'dart:convert';
+// import 'package:shared_preferences/shared_preferences.dart';
+//
+// void main() {
+//   runApp(const DeveloperPortfolioApp());
+// }
+//
+// class DeveloperPortfolioApp extends StatelessWidget {
+//   const DeveloperPortfolioApp({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'Developer Portfolio',
+//       theme: ThemeData(
+//         useMaterial3: true,
+//         colorSchemeSeed: Colors.indigo,
+//         scaffoldBackgroundColor: const Color(0xFFF5F7FB),
+//       ),
+//       home: const PortfolioHomePage(),
+//     );
+//   }
+// }
+//
+// class PortfolioHomePage extends StatefulWidget {
+//   const PortfolioHomePage({super.key});
+//
+//   @override
+//   State<PortfolioHomePage> createState() => _PortfolioHomePageState();
+// }
+//
+// class _PortfolioHomePageState extends State<PortfolioHomePage> {
+//   int currentIndex = 0;
+//
+//   List<Map<String, String>> projects = [];
+//
+//   final List<String> skills = [
+//     "Flutter",
+//     "Dart",
+//     "Firebase",
+//     "JavaScript",
+//     "HTML",
+//     "CSS",
+//     "GitHub",
+//   ];
+//
+//   bool isLoading = true;
+//
+//   @override
+//   void initState() {
+//     super.initState();
+//     loadProjects();
+//   }
+//
+//   Future<void> loadProjects() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     final data = prefs.getString("projects");
+//
+//     if (data != null) {
+//       projects = List<Map<String, String>>.from(
+//         jsonDecode(data).map((item) => Map<String, String>.from(item)),
+//       );
+//     }
+//
+//     setState(() {
+//       isLoading = false;
+//     });
+//   }
+//
+//   Future<void> saveProjects() async {
+//     final prefs = await SharedPreferences.getInstance();
+//     await prefs.setString("projects", jsonEncode(projects));
+//   }
+//
+//   void addProject(String title) {
+//     setState(() {
+//       projects.add({
+//         "title": title,
+//         "description": "Saved locally (Task 2)",
+//       });
+//     });
+//
+//     saveProjects();
+//   }
+//
+//   void showAddProjectDialog() {
+//     TextEditingController controller = TextEditingController();
+//
+//     showDialog(
+//       context: context,
+//       builder: (context) {
+//         return AlertDialog(
+//           title: const Text("Add New Project"),
+//           content: TextField(
+//             controller: controller,
+//             decoration: const InputDecoration(
+//               hintText: "Enter project name",
+//             ),
+//           ),
+//           actions: [
+//             TextButton(
+//               onPressed: () => Navigator.pop(context),
+//               child: const Text("Cancel"),
+//             ),
+//             ElevatedButton(
+//               onPressed: () {
+//                 if (controller.text.isNotEmpty) {
+//                   addProject(controller.text);
+//                 }
+//                 Navigator.pop(context);
+//               },
+//               child: const Text("Add"),
+//             ),
+//           ],
+//         );
+//       },
+//     );
+//   }
+//
+//   Widget buildProfileScreen() {
+//     return SingleChildScrollView(
+//       padding: const EdgeInsets.all(20),
+//       child: Column(
+//         children: [
+//           Container(
+//             width: double.infinity,
+//             padding: const EdgeInsets.all(25),
+//             decoration: const BoxDecoration(
+//               gradient: LinearGradient(
+//                 colors: [Color(0xFF4F46E5), Color(0xFF06B6D4)],
+//               ),
+//               borderRadius: BorderRadius.all(Radius.circular(30)),
+//             ),
+//             child: Column(
+//               children: const [
+//                 CircleAvatar(
+//                   radius: 50,
+//                   backgroundColor: Colors.black87,
+//                   child: Icon(Icons.person, size: 55, color: Colors.white),
+//                 ),
+//                 SizedBox(height: 15),
+//                 Text(
+//                   "Neel Patel",
+//                   style: TextStyle(
+//                     fontSize: 28,
+//                     color: Colors.white,
+//                     fontWeight: FontWeight.bold,
+//                   ),
+//                 ),
+//                 SizedBox(height: 8),
+//                 Text(
+//                   "Flutter Developer",
+//                   style: TextStyle(color: Colors.white70, fontSize: 16),
+//                 ),
+//               ],
+//             ),
+//           ),
+//
+//           const SizedBox(height: 25),
+//
+//           buildInfoCard(Icons.email, "neel@gmail.com"),
+//           buildInfoCard(Icons.phone, "+91 9999999999"),
+//           buildInfoCard(Icons.location_on, "Ahmedabad"),
+//         ],
+//       ),
+//     );
+//   }
+//
+//   Widget buildInfoCard(IconData icon, String text) {
+//     return Card(
+//       margin: const EdgeInsets.only(bottom: 15),
+//       child: ListTile(
+//         leading: Icon(icon),
+//         title: Text(text),
+//       ),
+//     );
+//   }
+//
+//   Widget buildProjectsScreen() {
+//     if (isLoading) {
+//       return const Center(child: CircularProgressIndicator());
+//     }
+//
+//     if (projects.isEmpty) {
+//       return const Center(child: Text("No projects added yet"));
+//     }
+//
+//     return ListView.builder(
+//       padding: const EdgeInsets.all(15),
+//       itemCount: projects.length,
+//       itemBuilder: (context, index) {
+//         return Container(
+//           margin: const EdgeInsets.only(bottom: 15),
+//           padding: const EdgeInsets.all(18),
+//           decoration: BoxDecoration(
+//             color: Colors.white,
+//             borderRadius: BorderRadius.circular(25),
+//             boxShadow: const [
+//               BoxShadow(color: Colors.black12, blurRadius: 10),
+//             ],
+//           ),
+//           child: ListTile(
+//             leading: const Icon(Icons.work, color: Colors.indigo),
+//             title: Text(projects[index]["title"]!),
+//             subtitle: Text(projects[index]["description"]!),
+//           ),
+//         );
+//       },
+//     );
+//   }
+//
+//   Widget buildSkillsScreen() {
+//     return Padding(
+//       padding: const EdgeInsets.all(20),
+//       child: Wrap(
+//         spacing: 12,
+//         runSpacing: 12,
+//         children: skills.map((skill) => Chip(label: Text(skill))).toList(),
+//       ),
+//     );
+//   }
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     final screens = [
+//       buildProfileScreen(),
+//       buildProjectsScreen(),
+//       buildSkillsScreen(),
+//     ];
+//
+//     return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Developer Portfolio"),
+//         centerTitle: true,
+//       ),
+//       body: screens[currentIndex],
+//       floatingActionButton: FloatingActionButton(
+//         onPressed: showAddProjectDialog,
+//         child: const Icon(Icons.add),
+//       ),
+//       bottomNavigationBar: NavigationBar(
+//         selectedIndex: currentIndex,
+//         onDestinationSelected: (index) {
+//           setState(() {
+//             currentIndex = index;
+//           });
+//         },
+//         destinations: const [
+//           NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
+//           NavigationDestination(icon: Icon(Icons.work), label: "Projects"),
+//           NavigationDestination(icon: Icon(Icons.code), label: "Skills"),
+//         ],
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(const DeveloperPortfolioApp());
@@ -32,20 +293,8 @@ class PortfolioHomePage extends StatefulWidget {
 class _PortfolioHomePageState extends State<PortfolioHomePage> {
   int currentIndex = 0;
 
-  List<Map<String, String>> projects = [
-    {
-      "title": "Fitness Tracker",
-      "description": "Track workout and calories daily.",
-    },
-    {
-      "title": "Travel Booking UI",
-      "description": "Modern travel booking application UI.",
-    },
-    {
-      "title": "Notes App",
-      "description": "Simple notes app using Flutter.",
-    },
-  ];
+  // ✅ ONLY PROJECTS ARE DYNAMIC (NOT PROFILE)
+  List<Map<String, String>> projects = [];
 
   final List<String> skills = [
     "Flutter",
@@ -57,15 +306,60 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     "GitHub",
   ];
 
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    loadProjects();
+  }
+
+  // ================= LOAD ONLY PROJECTS =================
+  Future<void> loadProjects() async {
+    final prefs = await SharedPreferences.getInstance();
+    final data = prefs.getString("projects");
+
+    if (data != null) {
+      final decoded = jsonDecode(data);
+
+      projects = List<Map<String, String>>.from(
+        decoded.map((item) => Map<String, String>.from(item)),
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  // ================= SAVE ONLY PROJECTS =================
+  Future<void> saveProjects() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString("projects", jsonEncode(projects));
+  }
+
+  // ================= ADD PROJECT =================
   void addProject(String title) {
     setState(() {
       projects.add({
         "title": title,
-        "description": "New Flutter project added.",
+        "description": "Saved locally",
       });
     });
+
+    saveProjects();
   }
 
+  // ================= DELETE PROJECT =================
+  void deleteProject(int index) {
+    setState(() {
+      projects.removeAt(index);
+    });
+
+    saveProjects();
+  }
+
+  // ================= UI DIALOG =================
   void showAddProjectDialog() {
     TextEditingController controller = TextEditingController();
 
@@ -82,9 +376,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
+              onPressed: () => Navigator.pop(context),
               child: const Text("Cancel"),
             ),
             ElevatedButton(
@@ -92,7 +384,6 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                 if (controller.text.isNotEmpty) {
                   addProject(controller.text);
                 }
-
                 Navigator.pop(context);
               },
               child: const Text("Add"),
@@ -103,6 +394,7 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
     );
   }
 
+  // ================= PROFILE (STATIC - NEVER TOUCH) =================
   Widget buildProfileScreen() {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -111,30 +403,21 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           Container(
             width: double.infinity,
             padding: const EdgeInsets.all(25),
-            decoration: BoxDecoration(
-              gradient: const LinearGradient(
-                colors: [
-                  Color(0xFF4F46E5),
-                  Color(0xFF06B6D4),
-                ],
+            decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Color(0xFF4F46E5), Color(0xFF06B6D4)],
               ),
-              borderRadius: BorderRadius.circular(30),
+              borderRadius: BorderRadius.all(Radius.circular(30)),
             ),
-            child: Column(
+            child: const Column(
               children: [
-                const CircleAvatar(
+                CircleAvatar(
                   radius: 50,
                   backgroundColor: Colors.black87,
-                  child: Icon(
-                    Icons.person,
-                    size: 55,
-                    color: Colors.white,
-                  ),
+                  child: Icon(Icons.person, size: 55, color: Colors.white),
                 ),
-
-                const SizedBox(height: 15),
-
-                const Text(
+                SizedBox(height: 15),
+                Text(
                   "Neel Patel",
                   style: TextStyle(
                     fontSize: 28,
@@ -142,26 +425,10 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-
-                const SizedBox(height: 8),
-
-                const Text(
+                SizedBox(height: 8),
+                Text(
                   "Flutter Developer",
-                  style: TextStyle(
-                    color: Colors.white70,
-                    fontSize: 16,
-                  ),
-                ),
-
-                const SizedBox(height: 25),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
-                    ProfileStat(number: "10+", label: "Projects"),
-                    ProfileStat(number: "7", label: "Skills"),
-                    ProfileStat(number: "1", label: "Internship"),
-                  ],
+                  style: TextStyle(color: Colors.white70),
                 ),
               ],
             ),
@@ -169,20 +436,9 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
 
           const SizedBox(height: 25),
 
-          buildInfoCard(
-            Icons.email,
-            "neelpatel@gmail.com",
-          ),
-
-          buildInfoCard(
-            Icons.phone,
-            "+91 9876543210",
-          ),
-
-          buildInfoCard(
-            Icons.location_on,
-            "Ahmedabad, Gujarat",
-          ),
+          buildInfoCard(Icons.email, "neel@gmail.com"),
+          buildInfoCard(Icons.phone, "+91 9999999999"),
+          buildInfoCard(Icons.location_on, "Ahmedabad"),
         ],
       ),
     );
@@ -190,25 +446,20 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
 
   Widget buildInfoCard(IconData icon, String text) {
     return Card(
-      elevation: 3,
       margin: const EdgeInsets.only(bottom: 15),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
       child: ListTile(
-        leading: CircleAvatar(
-          backgroundColor: Colors.indigo.shade100,
-          child: Icon(
-            icon,
-            color: Colors.indigo,
-          ),
-        ),
+        leading: Icon(icon),
         title: Text(text),
       ),
     );
   }
 
+  // ================= PROJECTS =================
   Widget buildProjectsScreen() {
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
     return ListView.builder(
       padding: const EdgeInsets.all(15),
       itemCount: projects.length,
@@ -219,97 +470,41 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(25),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12.withOpacity(0.05),
-                blurRadius: 10,
-              )
+            boxShadow: const [
+              BoxShadow(color: Colors.black12, blurRadius: 10),
             ],
           ),
-          child: Row(
-            children: [
-              Container(
-                padding: const EdgeInsets.all(16),
-                decoration: BoxDecoration(
-                  color: Colors.indigo.shade100,
-                  borderRadius: BorderRadius.circular(18),
-                ),
-                child: const Icon(
-                  Icons.laptop_mac,
-                  color: Colors.indigo,
-                ),
-              ),
+          child: ListTile(
+            leading: const Icon(Icons.work, color: Colors.indigo),
+            title: Text(projects[index]["title"]!),
+            subtitle: Text(projects[index]["description"]!),
 
-              const SizedBox(width: 18),
-
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      projects[index]["title"]!,
-                      style: const TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-
-                    const SizedBox(height: 6),
-
-                    Text(
-                      projects[index]["description"]!,
-                      style: const TextStyle(
-                        color: Colors.black54,
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+            // ✅ DELETE FIXED (NO PROFILE IMPACT)
+            trailing: IconButton(
+              icon: const Icon(Icons.delete, color: Colors.red),
+              onPressed: () => deleteProject(index),
+            ),
           ),
         );
       },
     );
   }
 
+  // ================= SKILLS =================
   Widget buildSkillsScreen() {
     return Padding(
       padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Text(
-            "Technical Skills",
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-
-          const SizedBox(height: 20),
-
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
-            children: skills.map((skill) {
-              return Chip(
-                label: Text(skill),
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 10,
-                ),
-                backgroundColor: Colors.indigo.shade100,
-              );
-            }).toList(),
-          ),
-        ],
+      child: Wrap(
+        spacing: 12,
+        runSpacing: 12,
+        children: skills.map((e) => Chip(label: Text(e))).toList(),
       ),
     );
   }
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> screens = [
+    final screens = [
       buildProfileScreen(),
       buildProjectsScreen(),
       buildSkillsScreen(),
@@ -317,23 +512,14 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        elevation: 0,
+        title: const Text("Developer Portfolio"),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
-        title: const Text(
-          "Developer Portfolio",
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ),
-
       body: screens[currentIndex],
 
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: FloatingActionButton(
         onPressed: showAddProjectDialog,
-        icon: const Icon(Icons.add),
-        label: const Text("Add"),
+        child: const Icon(Icons.add),
       ),
 
       bottomNavigationBar: NavigationBar(
@@ -344,56 +530,11 @@ class _PortfolioHomePageState extends State<PortfolioHomePage> {
           });
         },
         destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.person),
-            label: "Profile",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.work),
-            label: "Projects",
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.code),
-            label: "Skills",
-          ),
+          NavigationDestination(icon: Icon(Icons.person), label: "Profile"),
+          NavigationDestination(icon: Icon(Icons.work), label: "Projects"),
+          NavigationDestination(icon: Icon(Icons.code), label: "Skills"),
         ],
       ),
-    );
-  }
-}
-
-class ProfileStat extends StatelessWidget {
-  final String number;
-  final String label;
-
-  const ProfileStat({
-    super.key,
-    required this.number,
-    required this.label,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        Text(
-          number,
-          style: const TextStyle(
-            fontSize: 24,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-
-        const SizedBox(height: 5),
-
-        Text(
-          label,
-          style: const TextStyle(
-            color: Colors.white70,
-          ),
-        ),
-      ],
     );
   }
 }
