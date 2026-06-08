@@ -43,13 +43,13 @@ It demonstrates real-world Flutter concepts like state management, JSON handling
 ## 📸 Screenshots
 
 ### Home Screen
-![Home](screenshots/home.png)
+![Home](screenshots/profile_screen.png)
 
 ### Projects Screen
-![Projects](screenshots/projects.png)
+![Projects](screenshots/projects_screen.png)
 
 ### Delete Feature
-![Delete](screenshots/delete.png)
+![Delete](screenshots/delete_project.png)
 
 ---
 
